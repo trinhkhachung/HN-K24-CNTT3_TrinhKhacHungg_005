@@ -7,7 +7,6 @@ import com.elearning.models.services.AuthService;
 
 import lombok.RequiredArgsConstructor;
 
-
 import com.elearning.advice.ApiResponse;
 import org.springframework.http.ResponseEntity;
 
@@ -19,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
@@ -32,8 +31,8 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<Map<String, String>>> register(@RequestBody RegisterRequest registerRequest) {
-        Map<String, String> data = authService.register(registerRequest);
-        return ResponseEntity.ok(ApiResponse.success(data, "Registration successful"));
+    public ResponseEntity<ApiResponse<Void>> register(@RequestBody RegisterRequest registerRequest) {
+        authService.register(registerRequest);
+        return ResponseEntity.ok(ApiResponse.<Void>success(null, "Register successfully"));
     }
 }

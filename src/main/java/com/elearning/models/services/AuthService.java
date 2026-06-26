@@ -44,7 +44,7 @@ public class AuthService {
         return data;
     }
 
-    public Map<String, String> register(RegisterRequest registerRequest) {
+    public void register(RegisterRequest registerRequest) {
         Optional<User> existingUser = userRepository.findByEmail(registerRequest.getEmail());
         if (existingUser.isPresent()) {
             throw new BusinessException(400, "Email already in use");
@@ -57,12 +57,5 @@ public class AuthService {
         user.setRole("STUDENT"); // Default role
 
         userRepository.save(user);
-
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
-        final String jwt = jwtUtil.generateToken(userDetails);
-
-        Map<String, String> data = new HashMap<>();
-        data.put("token", jwt);
-        return data;
     }
 }
